@@ -22,6 +22,8 @@
 
 ## Automated Findings / Publicly Known Issues
 
+### Automated Findings
+
 The 4naly3er report can be found
 [here](https://github.com/code-423n4/2024-01-renft/blob/main/4naly3er-report.md).
 
@@ -33,7 +35,9 @@ _Note for C4 wardens: Anything included in this
 `Automated Findings / Publicly Known Issues` section is considered a publicly
 known issue and is ineligible for awards._
 
-### Manipulation via Hook Contracts
+### Publicly Known Issues
+
+#### Manipulation via Hook Contracts
 
 Hook contracts are middleware that execute arbitrary logic before the
 transaction payload originating from a rental safe executes at an intended
@@ -45,7 +49,7 @@ contracts to interact as middleware within the protocol. Therefore, any exploits
 carried out via logic within a custom hook contract are considered to be known
 issues.
 
-### Dishonest ERC721/ERC1155 Implementations
+#### Dishonest ERC721/ERC1155 Implementations
 
 The
 [Guard](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Guard.sol)
@@ -54,7 +58,7 @@ implement the ERC721/ERC1155 spec. A dishonest implementation that adds an
 additional function to transfer the token to another wallet cannot be prevented
 by the protocol. Therefore, these issues are considered to be known.
 
-### Rebasing or Fee-On-Transfer ERC20 Implementations
+#### Rebasing or Fee-On-Transfer ERC20 Implementations
 
 The protocol contracts do not expect to be interacting with any ERC20 token
 balances that can change during transfer due to a fee, or change balance while
