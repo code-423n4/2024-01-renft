@@ -71,10 +71,10 @@ contract. Therefore, these issues are considered to be known.
 This protocol facilitates generalized collateral-free rentals built on top of
 Gnosis Safe and Seaport.
 
-To give an example, imagine Alice has gaming NFTs. She signs seaport order
-typed data and thus signals that she is happy to lend out these assets. Now, Bob
-would love to use the NFTs in the game. He finds Alice's listing and rents. This
-is where these contracts come into force. A gnosis safe is created for Bob where
+To give an example, imagine Alice has gaming NFTs. She signs seaport order typed
+data and thus signals that she is happy to lend out these assets. Now, Bob would
+love to use the NFTs in the game. He finds Alice's listing and rents. This is
+where these contracts come into force. A gnosis safe is created for Bob where
 assets he rented get sent to. There is a gnosis module that disallows Bob to
 move out the assets from his smart contract wallet. He is now free to use the
 NFTs in-game.
@@ -172,8 +172,8 @@ of the protocol.
 
 | Contact | Discord  | Telegram                                      | Twitter                                              |
 | ------- | -------- | --------------------------------------------- | ---------------------------------------------------- |
-| Naz     | nazariyv | [nazariyv](https://t.me/nazariyv)             | [AlgorithmicBot](https://twitter.com/AlgorithmicBot) |
 | Alec    | Alec1017 | [alecdifederico](https://t.me/alecdifederico) | [alecdifederico](https://twitter.com/alecdifederico) |
+| Naz     | nazariyv | [nazariyv](https://t.me/nazariyv)             | [AlgorithmicBot](https://twitter.com/AlgorithmicBot) |
 
 # Scope
 
