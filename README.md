@@ -356,6 +356,8 @@ Run tests with a gas report:
 forge test --gas-report
 ```
 
+For an overview of the testing suite, please refer to this [doc](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/test/README.md).
+
 > If forge fails to run, please confirm you are running the latest version. This
 > was tested with forge `0.2.0`.
 
