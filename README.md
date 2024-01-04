@@ -72,8 +72,8 @@ contract. Therefore, these issues are considered to be known.
 
 # Overview
 
-This protocol facilitates generalized collateral-free rentals built on top of
-Gnosis Safe and Seaport.
+This protocol facilitates generalized collateral-free NFT rentals built on top
+of Gnosis Safe and Seaport.
 
 To give an example, imagine Alice has gaming NFTs. She signs seaport order typed
 data and thus signals that she is happy to lend out these assets. Now, Bob would
@@ -181,8 +181,8 @@ of the protocol.
 
 # Scope
 
-| Contract                                                                                                           | SLOC | Purpose                                                                                                                             |
-| ------------------------------------------------------------------------------------------------------------------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| Contract                                                                                                                                               | SLOC | Purpose                                                                                                                             |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------- |
 | [src/modules/PaymentEscrow.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/PaymentEscrow.sol) | 156  | Escrows rental payments while rentals are active.                                                                                   |
 | [src/modules/Storage.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/Storage.sol)             | 106  | Maintains all the storage for the protocol.                                                                                         |
 | [src/packages/Accumulator.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/packages/Accumulator.sol)   | 46   | Implements functionality for managing dynamically allocated data struct arrays directly in memory.                                  |
