@@ -323,6 +323,13 @@ ERC20 tokens) are not given to the proper addresses or in the correct amounts.
 - Describe any specific areas you would like addressed: see **Attack Ideas**
   above
 
+# Setup
+
+Clone with recurse:
+```bash
+git clone https://github.com/code-423n4/2024-01-renft.git --recurse
+```
+
 # Tests
 
 This protocol uses
