@@ -71,7 +71,7 @@ contract. Therefore, these issues are considered to be known.
 This protocol facilitates generalized collateral-free rentals built on top of
 Gnosis Safe and Seaport.
 
-To give an example, imagine Alice has gaming NFTs. She signs seaport orderd
+To give an example, imagine Alice has gaming NFTs. She signs seaport order
 typed data and thus signals that she is happy to lend out these assets. Now, Bob
 would love to use the NFTs in the game. He finds Alice's listing and rents. This
 is where these contracts come into force. A gnosis safe is created for Bob where
