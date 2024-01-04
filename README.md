@@ -18,7 +18,7 @@
 - Starts January 8, 2024 20:00 UTC
 - Ends January 18, 2024 20:00 UTC
 
-### ❗ The code for this contest is located in a separate [repo](https://github.com/re-nft/smart-contracts/commit/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291).
+### ❗ The code for this contest is located in a separate [repo](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291).
 
 **The above takes you to the correct commit hash, but to be extra explicit, this
 is the commit hash you should be looking at:
