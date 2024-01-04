@@ -109,7 +109,7 @@ more information on policies, see
 [here](https://github.com/fullyallocated/Default#the-default-framework).
 
 - [Admin](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Admin.sol):
-  Acts as an interface for all behavior in the protocol related admin logic.
+  Acts as an interface for all behavior in the protocol related to admin logic.
   Admin duties include fee management, proxy management, and whitelist
   management.
 - [Create](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Create.sol):
