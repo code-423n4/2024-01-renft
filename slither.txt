@@ -1,0 +1,99 @@
+INFO:Detectors:
+Contract locking ether found:
+	Contract Create2Deployer (src/Create2Deployer.sol#14-121) has payable functions:
+	 - Create2Deployer.deploy(bytes32,bytes) (src/Create2Deployer.sol#32-73)
+	But does not have a function to withdraw the ether
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#contracts-that-lock-ether
+INFO:Detectors:
+Reentrancy in PaymentEscrow._settlePayment(Item[],OrderType,address,address,uint256,uint256) (src/modules/PaymentEscrow.sol#215-283):
+	External calls:
+	- _settlePaymentProRata(item.token,paymentAmount,lender,renter,elapsedTime,totalTime) (src/modules/PaymentEscrow.sol#257-264)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (src/modules/PaymentEscrow.sol#102-104)
+	- _settlePaymentInFull(item.token,paymentAmount,item.settleTo,lender,renter) (src/modules/PaymentEscrow.sol#271-277)
+		- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (src/modules/PaymentEscrow.sol#102-104)
+	State variables written after the call(s):
+	- _decreaseDeposit(item.token,item.amount) (src/modules/PaymentEscrow.sol#252)
+		- balanceOf[token] -= amount (src/modules/PaymentEscrow.sol#294)
+	PaymentEscrowBase.balanceOf (src/modules/PaymentEscrow.sol#25) can be used in cross function reentrancies:
+	- PaymentEscrow._decreaseDeposit(address,uint256) (src/modules/PaymentEscrow.sol#292-295)
+	- PaymentEscrow._increaseDeposit(address,uint256) (src/modules/PaymentEscrow.sol#304-307)
+	- PaymentEscrowBase.balanceOf (src/modules/PaymentEscrow.sol#25)
+	- PaymentEscrow.skim(address,address) (src/modules/PaymentEscrow.sol#397-412)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-1
+INFO:Detectors:
+Create._processPayOrderOffer(Item[],SpentItem[],uint256).totalPayments (src/policies/Create.sol#254) is a local variable never initialized
+Create._processPayeeOrderConsideration(ReceivedItem[]).totalRentals (src/policies/Create.sol#371) is a local variable never initialized
+Create._processBaseOrderOffer(Item[],SpentItem[],uint256).itemType (src/policies/Create.sol#206) is a local variable never initialized
+Create._processPayOrderOffer(Item[],SpentItem[],uint256).totalRentals (src/policies/Create.sol#253) is a local variable never initialized
+Create._processPayeeOrderConsideration(ReceivedItem[]).totalPayments (src/policies/Create.sol#372) is a local variable never initialized
+Create._processPayOrderOffer(Item[],SpentItem[],uint256).settleTo (src/policies/Create.sol#258) is a local variable never initialized
+Create._processPayOrderOffer(Item[],SpentItem[],uint256).itemType (src/policies/Create.sol#257) is a local variable never initialized
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#uninitialized-local-variables
+INFO:Detectors:
+Kernel._reconfigurePolicies(Keycode) (src/Kernel.sol#540-550) ignores return value by dependents[i].configureDependencies() (src/Kernel.sol#548)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#unused-return
+INFO:Detectors:
+ISafe.nonce().nonce (src/interfaces/ISafe.sol#184) shadows:
+	- ISafe.nonce() (src/interfaces/ISafe.sol#184) (function)
+Guard.checkTransaction(address,uint256,bytes,Enum.Operation,uint256,uint256,uint256,address,address,bytes,address).isActive (src/policies/Guard.sol#335) shadows:
+	- Policy.isActive (src/Kernel.sol#116) (state variable)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#local-variable-shadowing
+INFO:Detectors:
+Kernel.constructor(address,address)._executor (src/Kernel.sol#242) lacks a zero-check on :
+		- executor = _executor (src/Kernel.sol#243)
+Kernel.constructor(address,address)._admin (src/Kernel.sol#242) lacks a zero-check on :
+		- admin = _admin (src/Kernel.sol#244)
+Kernel.executeAction(Actions,address).target_ (src/Kernel.sol#277) lacks a zero-check on :
+		- executor = target_ (src/Kernel.sol#296)
+		- admin = target_ (src/Kernel.sol#298)
+Proxy.constructor(address,bytes)._implementation (src/proxy/Proxy.sol#23) lacks a zero-check on :
+		- (success) = _implementation.delegatecall(_data) (src/proxy/Proxy.sol#30)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#missing-zero-address-validation
+INFO:Detectors:
+PaymentEscrow._safeTransfer(address,address,uint256) (src/modules/PaymentEscrow.sol#100-118) has external calls inside a loop: (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (src/modules/PaymentEscrow.sol#102-104)
+Stop._removeHooks(Hook[],Item[],address) (src/policies/Stop.sol#194-250) has external calls inside a loop: ! STORE.hookOnStop(target) (src/policies/Stop.sol#210)
+Stop._removeHooks(Hook[],Item[],address) (src/policies/Stop.sol#194-250) has external calls inside a loop: IHook(target).onStop(rentalWallet,item.token,item.identifier,item.amount,hooks[i].extraData) (src/policies/Stop.sol#226-248)
+Stop._reclaimRentedItems(RentalOrder) (src/policies/Stop.sol#166-183) has external calls inside a loop: success = ISafe(order.rentalWallet).execTransactionFromModule(address(this),0,abi.encodeWithSelector(this.reclaimRentalOrder.selector,order),Enum.Operation.DelegateCall) (src/policies/Stop.sol#168-177)
+Reclaimer._transferERC721(Item,address) (src/packages/Reclaimer.sol#32-34) has external calls inside a loop: IERC721(item.token).safeTransferFrom(address(this),recipient,item.identifier) (src/packages/Reclaimer.sol#33)
+Reclaimer._transferERC1155(Item,address) (src/packages/Reclaimer.sol#42-50) has external calls inside a loop: IERC1155(item.token).safeTransferFrom(address(this),recipient,item.identifier,item.amount,) (src/packages/Reclaimer.sol#43-49)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation/#calls-inside-a-loop
+INFO:Detectors:
+Reentrancy in Kernel._activatePolicy(Policy) (src/Kernel.sol#418-450):
+	External calls:
+	- dependencies = policy_.configureDependencies() (src/Kernel.sol#434)
+	State variables written after the call(s):
+	- getDependentIndex[keycode][policy_] = moduleDependents[keycode].length - 1 (src/Kernel.sol#445)
+	- moduleDependents[keycode].push(policy_) (src/Kernel.sol#442)
+Reentrancy in Kernel._pruneFromDependents(Policy) (src/Kernel.sol#586-616):
+	External calls:
+	- dependencies = policy_.configureDependencies() (src/Kernel.sol#588)
+	State variables written after the call(s):
+	- getDependentIndex[keycode][lastPolicy] = origIndex (src/Kernel.sol#611)
+	- delete getDependentIndex[keycode][policy_] (src/Kernel.sol#614)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#reentrancy-vulnerabilities-2
+INFO:Detectors:
+Storage.removeRentalsBatch(bytes32[],RentalAssetUpdate[]) (src/modules/Storage.sol#244-266) has costly operations inside a loop:
+	- delete orders[orderHashes[i]] (src/modules/Storage.sol#255)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#costly-operations-inside-a-loop
+INFO:Detectors:
+RentalUtils.toRentalAssetUpdate(Item,address) (src/libraries/RentalUtils.sol#94-99) is never used and should be removed
+RentalUtils.toRentalIds(Item[],address) (src/libraries/RentalUtils.sol#72-86) is never used and should be removed
+fromKeycode(Keycode) (src/libraries/KernelUtils.sol#21-23) is never used and should be removed
+fromRole(Role) (src/libraries/KernelUtils.sol#39-41) is never used and should be removed
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#dead-code
+INFO:Detectors:
+Low level call in PaymentEscrow._safeTransfer(address,address,uint256) (src/modules/PaymentEscrow.sol#100-118):
+	- (success,data) = token.call(abi.encodeWithSelector(IERC20.transfer.selector,to,value)) (src/modules/PaymentEscrow.sol#102-104)
+Low level call in Proxy.constructor(address,bytes) (src/proxy/Proxy.sol#23-34):
+	- (success) = _implementation.delegatecall(_data) (src/proxy/Proxy.sol#30)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#low-level-calls
+INFO:Detectors:
+Variable Factory.initializeRentalSafe(address,address)._guardPolicy (src/policies/Factory.sol#122) is too similar to Factory.constructor(Kernel,Stop,Guard,TokenCallbackHandler,SafeProxyFactory,SafeL2).guardPolicy_ (src/policies/Factory.sol#52)
+Variable Factory.initializeRentalSafe(address,address)._stopPolicy (src/policies/Factory.sol#122) is too similar to Factory.constructor(Kernel,Stop,Guard,TokenCallbackHandler,SafeProxyFactory,SafeL2).stopPolicy_ (src/policies/Factory.sol#51)
+Variable Guard._checkTransaction(address,address,bytes).tokenId_scope_0 (src/policies/Guard.sol#213-215) is too similar to Guard._checkTransaction(address,address,bytes).tokenId_scope_1 (src/policies/Guard.sol#221-223)
+Variable Guard._checkTransaction(address,address,bytes).tokenId_scope_0 (src/policies/Guard.sol#213-215) is too similar to Guard._checkTransaction(address,address,bytes).tokenId_scope_2 (src/policies/Guard.sol#229-231)
+Variable Guard._checkTransaction(address,address,bytes).tokenId_scope_1 (src/policies/Guard.sol#221-223) is too similar to Guard._checkTransaction(address,address,bytes).tokenId_scope_2 (src/policies/Guard.sol#229-231)
+Variable Guard._checkTransaction(address,address,bytes).tokenId_scope_0 (src/policies/Guard.sol#213-215) is too similar to Guard._checkTransaction(address,address,bytes).tokenId_scope_3 (src/policies/Guard.sol#237-239)
+Variable Guard._checkTransaction(address,address,bytes).tokenId_scope_1 (src/policies/Guard.sol#221-223) is too similar to Guard._checkTransaction(address,address,bytes).tokenId_scope_3 (src/policies/Guard.sol#237-239)
+Variable Guard._checkTransaction(address,address,bytes).tokenId_scope_2 (src/policies/Guard.sol#229-231) is too similar to Guard._checkTransaction(address,address,bytes).tokenId_scope_3 (src/policies/Guard.sol#237-239)
+Reference: https://github.com/crytic/slither/wiki/Detector-Documentation#variable-names-too-similar

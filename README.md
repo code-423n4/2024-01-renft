@@ -18,12 +18,6 @@
 - Starts January 8, 2024 20:00 UTC
 - Ends January 18, 2024 20:00 UTC
 
-### ❗ The code for this contest is located in a separate [repo](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291).
-
-**The above takes you to the correct commit hash, but to be extra explicit, this
-is the commit hash you should be looking at:
-3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291**
-
 ## Automated Findings / Publicly Known Issues
 
 ### Automated Findings
@@ -91,7 +85,7 @@ categorized into four main groups:
 
 Modules are internal-facing contracts that store shared state across the
 protocol. For more information on modules, see
-[here](https://github.com/fullyallocated/Default#the-default-framework).
+[here](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/).
 
 - [Payment Escrow](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/PaymentEscrow.sol):
   Module dedicated to escrowing rental payments while rentals are active. When
@@ -106,7 +100,7 @@ protocol. For more information on modules, see
 Policies are external-facing contracts that receive inbound calls to the
 protocol, and route all the necessary updates to data models via Modules. For
 more information on policies, see
-[here](https://github.com/fullyallocated/Default#the-default-framework).
+[here](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/).
 
 - [Admin](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Admin.sol):
   Acts as an interface for all behavior in the protocol related to admin logic.
@@ -125,7 +119,7 @@ more information on policies, see
   tokens while a rental is active, as well as preventing token approvals and
   enabling of non-whitelisted gnosis safe modules.
 - [Stop](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Stop.sol):
-  Acts as an interface for all behavior related to stoping a rental. This policy
+  Acts as an interface for all behavior related to stopping a rental. This policy
   is also a module enabled on all rental safe wallets, and has the authority to
   pull funds out of a rental wallet if a rental is being stopped.
 
@@ -180,6 +174,8 @@ of the protocol.
 | Naz     | nazariyv | [nazariyv](https://t.me/nazariyv)             | [AlgorithmicBot](https://twitter.com/AlgorithmicBot) |
 
 # Scope
+
+*See [scope.txt](https://github.com/code-423n4/2024-01-renft/blob/main/scope.txt)*
 
 | Contract                                                                                                                                               | SLOC | Purpose                                                                                                                             |
 | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------- |
@@ -248,7 +244,7 @@ Additional descriptions of protocol behavior can be found
 One of the hallmarks of the protocol is that users should be able to safely rent
 out their assets to rental wallets. These rental wallets should not be allowed
 to move these assets freely. Potential attack surfaces include usage of delegate
-call, use of a prohobited function selector, use of a prohibited gnosis safe
+call, use of a prohibited function selector, use of a prohibited gnosis safe
 module, or inability for the protocol to retrieve the asset from the rental
 wallet once the rental has expired.
 
@@ -257,7 +253,7 @@ wallet once the rental has expired.
 Rentals are first transferred to the rental wallet during the processing of a
 seaport order. Afterwards, a rental is handled by this protocol and logged in
 storage. A potential attack vector is the prevention of storing the identifier
-of the rental in storage. If the protocol doesnt know the rental exists, then
+of the rental in storage. If the protocol doesn't know the rental exists, then
 there is no way to keep the asset in the rental wallet.
 
 ### Proper Rental Stopping
@@ -303,9 +299,9 @@ ERC20 tokens) are not given to the proper addresses or in the correct amounts.
 ## Scoping Details
 
 - If you have a public code repo, please share it here:
-  https://github.com/re-nft/smart-contracts/commit/fc5cc6d408f5cc77b817809b0b93adfa4ced2fdd
-- How many contracts are in scope?: 17
-- Total SLoC for these contracts?: 1600
+  https://github.com/re-nft/smart-contracts/commit/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291
+- How many contracts are in scope?: 12
+- Total SLoC for these contracts?: 1905
 - How many external imports are there?: 2
 - How many separate interfaces and struct definitions are there for the
   contracts within scope?: 4 interfaces 11 struct
@@ -376,7 +372,7 @@ slither .
 ```
 
 We have run default detectors with Slither and posted the output along with our
-[responses](./docs/slither.md)
+[responses](https://github.com/code-423n4/2024-01-renft/blob/main/docs/slither.md)
 to each. Please do not submit these findings unless you have reason to believe
 our responses here are not valid.
 
