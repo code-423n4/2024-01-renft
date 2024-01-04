@@ -82,17 +82,17 @@ These are general-purpose contracts which are agnostic to the core functionality
 
 ## Links
 
-- **Previous audits:** !TODO
-- **Documentation:** !TODO
-- **Website:** !TODO
-- **Twitter:** !TODO
-- **Discord:**  !TODO
+- **Previous audits:** there were no previous audits
+- **Documentation:** there is no documentation outside of this readme and the actual code repo
+- **Website:** https://renft.io
+- **Twitter:** https://twitter.com/renftlabs
+- **Discord:** https://discord.gg/4Ab8tknmhf
 
 ## Contact Information
 
 | Contact| Discord | Telegram | Twitter|
 | -------- | -------- | -------- | -----|
-| Naz     | naz     | [nazariyv](https://t.me/nazariyv)     | [AlgorithmicBot](https://twitter.com/AlgorithmicBot)     |
+| Naz     | nazariyv     | [nazariyv](https://t.me/nazariyv)     | [AlgorithmicBot](https://twitter.com/AlgorithmicBot)     |
 |Alec | Alec1017 | [alecdifederico](https://t.me/alecdifederico) | [alecdifederico](https://twitter.com/alecdifederico) |
 
 
