@@ -1,34 +1,3 @@
-# Repo setup
-
-## ⭐️ Sponsor: Add code to this repo
-
-- [ ] Create a PR to this repo with the below changes:
-- [ ] Provide a self-contained repository with working commands that will build (at least) all in-scope contracts, and commands that will run tests producing gas reports for the relevant contracts.
-- [ ] Make sure your code is thoroughly commented using the [NatSpec format](https://docs.soliditylang.org/en/v0.5.10/natspec-format.html#natspec-format).
-- [ ] Please have final versions of contracts and documentation added/updated in this repo **no less than 48 business hours prior to audit start time.**
-- [ ] Be prepared for a 🚨code freeze🚨 for the duration of the audit — important because it establishes a level playing field. We want to ensure everyone's looking at the same code, no matter when they look during the audit. (Note: this includes your own repo, since a PR can leak alpha to our wardens!)
-
-
----
-
-## ⭐️ Sponsor: Edit this `README.md` file
-
-- [ ] Modify the contents of this `README.md` file. Describe how your code is supposed to work with links to any relevent documentation and any other criteria/details that the C4 Wardens should keep in mind when reviewing. ([Here's a well-constructed example.](https://github.com/code-423n4/2022-08-foundation#readme))
-- [ ] Review the Gas award pool amount. This can be adjusted up or down, based on your preference - just flag it for Code4rena staff so we can update the pool totals across all comms channels.
-- [ ] Optional / nice to have: pre-record a high-level overview of your protocol (not just specific smart contract functions). This saves wardens a lot of time wading through documentation.
-- [ ] [This checklist in Notion](https://code4rena.notion.site/Key-info-for-Code4rena-sponsors-f60764c4c4574bbf8e7a6dbd72cc49b4#0cafa01e6201462e9f78677a39e09746) provides some best practices for Code4rena audits.
-
-## ⭐️ Sponsor: Final touches
-- [ ] Review and confirm the details in the section titled "Scoping details" and alert Code4rena staff of any changes.
-- [ ] Review and confirm the list of in-scope files in the `scope.txt` file in this directory.  Any files not listed as "in scope" will be considered out of scope for the purposes of judging, even if the file will be part of the deployed contracts.
-- [ ] Check that images and other files used in this README have been uploaded to the repo as a file and then linked in the README using absolute path (e.g. `https://github.com/code-423n4/yourrepo-url/filepath.png`)
-- [ ] Ensure that *all* links and image/file paths in this README use absolute paths, not relative paths
-- [ ] Check that all README information is in markdown format (HTML does not render on Code4rena.com)
-- [ ] Remove any part of this template that's not relevant to the final version of the README (e.g. instructions in brackets and italic)
-- [ ] Delete this checklist and all text above the line below when you're ready.
-
----
-
 # reNFT audit details
 - Total Prize Pool:$83,600 in USDC
   - HM awards: $41,250 in USDC
@@ -46,6 +15,8 @@
 - Starts January 8, 2024 20:00 UTC
 - Ends January 18, 2024 20:00 UTC
 
+### ❗ The code for this contest is located in a separate [repo](https://github.com/re-nft/smart-contracts).
+
 ## Automated Findings / Publicly Known Issues
 
 The 4naly3er report can be found [here](https://github.com/code-423n4/2024-01-renft/blob/main/4naly3er-report.md).
@@ -54,61 +25,156 @@ Automated findings output for the audit can be found [here](https://github.com/c
 
 _Note for C4 wardens: Anything included in this `Automated Findings / Publicly Known Issues` section is considered a publicly known issue and is ineligible for awards._
 
-[ ⭐️ SPONSORS: Are there any known issues or risks deemed acceptable that shouldn't lead to a valid finding? If so, list them here. ]
+### Manipulation via Hook Contracts
+
+Hook contracts are middleware that execute arbitrary logic before the transaction payload, originating from a rental safe, executes at an intended target address. As such, this leaves plenty of space for unintended behavior if a malicious or faulty hook contract is used. 
+
+This protocol relies on a whitelist which only enables permissioned hook contracts to interact as middleware within the protocol. Therefore, any exploits carried out via logic within a custom hook contract are considered to be known issues.
+
+### Dishonest ERC721/ERC1155 Implementations
+
+The [Guard](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Guard.sol) contract can only protect against the transfer of tokens
+that faithfully implement the ERC721/ERC1155 spec. A dishonest implementation
+that adds an additional function to transfer the token to another wallet cannot
+be prevented by the protocol.
+
+### Rebasing or Fee-On-Transfer ERC20 Implementations
+
+The protocol contracts do not expect to be interacting with any ERC20 token 
+balances that can change during transfer due to a fee, or change balance while 
+owned by the [PaymentEscrow](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol) contract.
 
 
 # Overview
 
-[ ⭐️ SPONSORS: add info here ]
+This protocol facilitates generalized collateral-free rentals built on top of Gnosis Safe and Seaport. The [Default Framework](https://github.com/fullyallocated/Default) is used as the main architecture for the protocol, and the contracts in scope can be categorized into four main groups:
+
+### Modules
+
+Modules are internal-facing contracts that store shared state across the protocol. For more information on modules, see [here](https://github.com/fullyallocated/Default#the-default-framework).
+
+- [Payment Escrow](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol): Module dedicated to escrowing rental payments while rentals are active. When rentals are stopped, this module will determine payouts to all parties and a fee will be reserved to be withdrawn later by a protocol admin.
+- [Storage](https://github.com/re-nft/smart-contracts/blob/main/src/modules/Storage.sol): Module dedicated to maintaining all the storage for the protocol. Includes storage for active rentals, deployed rental safes, hooks, and whitelists.
+
+### Policies
+
+Policies are external-facing contracts that receive inbound calls to the protocol, and route all the necessary updates to data models via Modules. For more information on policies, see [here](https://github.com/fullyallocated/Default#the-default-framework).
+
+- [Admin](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Admin.sol): Acts as an interface for all behavior in the protocol related admin logic. Admin duties include fee management, proxy management, and whitelist management.
+- [Create](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Create.sol): Acts as an interface for all behavior related to creating a rental. This is the entrypoint for creating a rental through the protocol, which only Seaport contracts can access. 
+- [Factory](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Factory.sol): Acts as an interface for all behavior related to deploying rental safes. Deploys rental safes using gnosis safe factory contracts.
+- [Guard](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Guard.sol): Acts as an interface for all behavior related to guarding transactions that originate from a rental wallet. Prevents transfers of ERC721 and ERC1155 tokens while a rental is active, as well as preventing token approvals and enabling of non-whitelisted gnosis safe modules
+- [Stop](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Stop.sol): Acts as an interface for all behavior related to stoping a rental. This policy is also a module enabled on all rental safe wallets, and has the authority to pull funds out of a rental wallet if a rental is being stopped.
+
+### Packages
+Packages are small, helper contracts dedicated to performing a single task which are imported by other core contracts in the protocol. 
+
+- [Accumulator](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Accumulator.sol): Package that implements functionality for managing dynamically allocated data struct arrays directly in memory. The rationale for this was the need for an array of structs where the total size is not known at instantiation.
+- [Reclaimer](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Reclaimer.sol): Retrieves rented assets from a wallet contract once a rental has been stopped, and transfers them to the proper recipient. A delegate call from the safe to the reclaimer is made to pull the assets.
+- [Signer](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Signer.sol): Contains logic related to signed payloads and signature verification when creating rentals. 
+
+### General
+These are general-purpose contracts which are agnostic to the core functionality of the protocol.
+
+- [Create2 Deployer](https://github.com/re-nft/smart-contracts/blob/main/src/Create2Deployer.sol): Deployment contract that uses the init code and a salt to perform a deployment. There is added cross-chain safety as well because a particular salt can only be used if the sender's address is contained within that salt. This prevents a contract on one chain from being deployed by a non-admin account on another chain.
+- [Kernel](https://github.com/re-nft/smart-contracts/blob/main/src/Kernel.sol): A registry contract that manages a set of policy and module contracts, as well as the permissions to interact with those contracts. Privileged admin and executor roles exist to allow for role-granting and execution of kernel functionality which includes adding new policies or upgrading modules.
 
 ## Links
 
-- **Previous audits:** 
-- **Documentation:**
-- **Website:**
-- **Twitter:** 
-- **Discord:** 
+- **Previous audits:** !TODO
+- **Documentation:** !TODO
+- **Website:** !TODO
+- **Twitter:** !TODO
+- **Discord:**  !TODO
+
+## Contact Information
+
+| Contact| Discord | Telegram | Twitter|
+| -------- | -------- | -------- | -----|
+| Naz     | naz     | [nazariyv](https://t.me/nazariyv)     | [AlgorithmicBot](https://twitter.com/AlgorithmicBot)     |
+|Alec | Alec1017 | [alecdifederico](https://t.me/alecdifederico) | [alecdifederico](https://twitter.com/alecdifederico) |
 
 
 # Scope
 
-[ ⭐️ SPONSORS: add scoping and technical details here ]
-
-- [ ] In the table format shown below, provide the name of each contract and:
-  - [ ] source lines of code (excluding blank lines and comments) in each *For line of code counts, we recommend running prettier with a 100-character line length, and using [cloc](https://github.com/AlDanial/cloc).* 
-  - [ ] external contracts called in each
-  - [ ] libraries used in each
-
-*List all files in scope in the table below (along with hyperlinks) -- and feel free to add notes here to emphasize areas of focus.*
-
-| Contract | SLOC | Purpose | Libraries used |  
-| ----------- | ----------- | ----------- | ----------- |
-| [contracts/folder/sample.sol](https://github.com/code-423n4/repo-name/blob/contracts/folder/sample.sol) | 123 | This contract does XYZ | [`@openzeppelin/*`](https://openzeppelin.com/contracts/) |
+| Contract                                                                                                           | SLOC | Purpose  |
+| ------------------------------------------------------------------------------------------------------------------ | -----| ---- |
+| [src/modules/PaymentEscrow.sol](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol) | 156  | Escrows rental payments while rentals are active.  |
+| [src/modules/Storage.sol](https://github.com/re-nft/smart-contracts/blob/main/src/modules/Storage.sol)             | 106  | Maintains all the storage for the protocol.  |
+| [src/packages/Accumulator.sol](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Accumulator.sol)   | 46   | Implements functionality for managing dynamically allocated data struct arrays directly in memory.  |
+| [src/packages/Reclaimer.sol](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Reclaimer.sol)       | 41   | Retrieves rented assets from a wallet contract once a rental has been stopped, and transfers them to the proper recipient.   |
+| [src/packages/Signer.sol](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Signer.sol)             | 195  | Contains logic related to signed payloads and signature verification when creating rentals.  |
+| [src/policies/Admin.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Admin.sol)               | 58   | Admin duties include fee management, proxy management, and whitelist management.  |
+| [src/policies/Create.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Create.sol)             | 365  | Acts as an interface for all behavior related to creating a rental.  |
+| [src/policies/Factory.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Factory.sol)           | 78   | Acts as an interface for all behavior related to deploying rental safes.  |
+| [src/policies/Guard.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Guard.sol)               | 161  | Acts as an interface for all behavior related to guarding transactions that originate from a rental wallet.  |
+| [src/policies/Stop.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Stop.sol)                 | 162  | Acts as an interface for all behavior related to stoping a rental.  |
+| [src/Create2Deployer.sol](https://github.com/re-nft/smart-contracts/blob/main/src/Create2Deployer.sol)             | 44   | Deployment contract that uses the init code and a salt to perform a deployment.   |
+| [src/Kernel.sol](https://github.com/re-nft/smart-contracts/blob/main/src/Kernel.sol)                               | 251  | A registry contract that manages a set of policy and module contracts, as well as the permissions to interact with those contracts.  |
 
 ## Out of scope
 
-*List any files/contracts that are out of scope for this audit.*
+- [examples/*](https://github.com/re-nft/smart-contracts/tree/main/src/examples)
+- [interfaces/*](https://github.com/re-nft/smart-contracts/tree/main/src/interfaces)
+- [libraries/*](https://github.com/re-nft/smart-contracts/tree/main/src/libraries)
+- [proxy/*](https://github.com/re-nft/smart-contracts/tree/main/src/proxy)
+- [packages/Zone.sol](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Zone.sol)
 
 # Additional Context
 
-- [ ] Describe any novel or unique curve logic or mathematical models implemented in the contracts
-- [ ] Please list specific ERC20 that your protocol is anticipated to interact with. Could be "any" (literally anything, fee on transfer tokens, ERC777 tokens and so forth) or a list of tokens you envision using on launch.
-- [ ] Please list specific ERC721 that your protocol is anticipated to interact with.
-- [ ] Which blockchains will this code be deployed to, and are considered in scope for this audit?
-- [ ] Please list all trusted roles (e.g. operators, slashers, pausers, etc.), the privileges they hold, and any conditions under which privilege escalation is expected/allowable
-- [ ] In the event of a DOS, could you outline a minimum duration after which you would consider a finding to be valid? This question is asked in the context of most systems' capacity to handle DoS attacks gracefully for a certain period.
-- [ ] Is any part of your implementation intended to conform to any EIP's? If yes, please list the contracts in this format: 
-  - `Contract1`: Should comply with `ERC/EIPX`
-  - `Contract2`: Should comply with `ERC/EIPY`
+### DoS Attack Duration
+- !TODO: In the event of a DOS, could you outline a minimum duration after which you would consider a finding to be valid? This question is asked in the context of most systems' capacity to handle DoS attacks gracefully for a certain period.
+
+### ERC20 Token Support
+- Fee on transfer and rebasing ERC20 tokens are not supported
+- !TODO: Please list specific ERC20 that your protocol is anticipated to interact with. Could be "any" (literally anything, fee on transfer tokens, ERC777 tokens and so forth) or a list of tokens you envision using on launch.
+
+### ERC721/ERC1155 Token Support
+- !TODO: Please list specific ERC721 that your protocol is anticipated to interact with.
+
+### Deployed Blockchains
+- !TODO: Which blockchains will this code be deployed to, and are considered in scope for this audit?
+
+### Trusted Roles
+- `SEAPORT`: Addresses granted this role will be allowed to interact with the `validateOrder()` function in the Create Policy. This is a singleton role that should only be granted to the Seaport core contract.
+- `CREATE_SIGNER`: Addresses granted this role are considered protocol signers which can sign off on payloads wishing to initiate a rental.
+- `ADMIN_ADMIN`: Addresses granted this role are considered admins of the Admin Policy, and can conduct admin operations on the protocol.
+- `GUARD_ADMIN`: Addresses granted this role can toggle whitelisted hook contracts and which addresses are safe for a rental wallet to delegate call
+
+Additional descriptions of protocol behavior can be found [here](https://github.com/code-423n4/2024-01-renft/tree/main/docs).
 
 ## Attack ideas (Where to look for bugs)
-*List specific areas to address - see [this blog post](https://medium.com/code4rena/the-security-council-elections-within-the-arbitrum-dao-a-comprehensive-guide-aa6d001aae60#9adb) for an example*
+
+### Rental Wallet Security
+One of the hallmarks of the protocol is that users should be able to safely rent out their assets to rental wallets. These rental wallets should not be allowed to move these assets freely. Potential attack surfaces include usage of delegate call, use of a prohobited function selector, use of a prohibited gnosis safe module, or inability for the protocol to retrieve the asset from the rental wallet once the rental has expired. 
+
+### Proper Rental Creation
+Rentals are first transferred to the rental wallet during the processing of a seaport order. Afterwards, a rental is handled by this protocol and logged in storage. A potential attack vector is the prevention of storing the identifier of the rental in storage. If the protocol doesnt know the rental exists, then there is no way to keep the asset in the rental wallet.
+
+### Proper Rental Stopping
+Once a rental has expired, any address can initiate the reclaiming process to give rented assets back to the lender, and payments to their intended recipients. A potential attack vector is the breaking of these invariants where lenders may not receive their expected assets back, or payments (denominated in ERC20 tokens) are not given to the proper addresses or in the correct amounts. 
 
 ## Main invariants
-*Describe the project's main invariants (properties that should NEVER EVER be broken).*
+- Recipient of ERC721 / ERC1155 tokens after rental creation is always the reNFT smart contract renter
+- Recipient of ERC721 / ERC1155 tokens after rental stop is always the original owner of the asset
+  wallet
+- Recipient of ERC20 tokens after rental creation is always the Payment Escrow Module
+- Recipient of ERC20 tokens after rental stop is always the lender address if the rental was a BASE order and is the renter address if the rental was a PAY order
+- Stored token balance of the [Payment Escrow](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol) contract should never be
+  less than the true token balance of the contract
+- Rental safes can never make a call to `setGuard()`
+- Rental safes can never make a call to `enableModule()` or `disableModule()`
+  unless the target has been whitelisted by the [Admin Policy](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Admin.sol)
+- Rental safes can never make a delegatecall unless the target has been whitelisted by the [Admin Policy](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Admin.sol)
+- ERC721 / ERC1155 tokens cannot leave a rental wallet via `approve()`,
+  `setApprovalForAll()`, `safeTransferFrom()`, `transferFrom()`, or `safeBatchTransferFrom()`
+- Hooks can only be specified for ERC721 and ERC1155 items
+- Only one hook can act as middleware to a target contract at one time. But, there is no limit on the amount of hooks that can execute during rental start or stop.
+- When control flow is passed to hook contracts, the rental concerning the hook will be active and a record of it will be stored in the [Storage Module](https://github.com/re-nft/smart-contracts/blob/main/src/modules/Storage.sol)
+
 
 ## Scoping Details 
-[ ⭐️ SPONSORS: please confirm/edit the information below. ]
+!TODO: please confirm/edit the information below.
 
 ```
 - If you have a public code repo, please share it here:  
@@ -132,6 +198,44 @@ _Note for C4 wardens: Anything included in this `Automated Findings / Publicly K
 
 # Tests
 
-*Provide every step required to build the project from a fresh git clone, as well as steps to run the tests with a gas report.* 
+This protocol uses [Foundry](https://book.getfoundry.sh/getting-started/installation) to run tests. To get started: 
 
-*Note: Many wardens run Slither as a first pass for testing.  Please document any known errors with no workaround.* 
+```bash
+curl -L https://foundry.paradigm.xyz | bash
+foundryup
+```
+
+Install all dependencies: 
+```bash
+forge install 
+```
+
+Run tests:
+```bash
+forge test
+```
+
+Run tests with a gas report:
+```bash
+forge test --gas-report
+```
+
+> If forge fails to run, please confirm you are running the latest version. This was tested with forge `0.2.0`.
+
+# Slither Notes
+
+Make sure slither is installed:
+
+```
+pip3 install slither-analyzer
+```
+
+To run static analysis on the contracts:
+
+```
+slither .
+```
+
+We have run default detectors with Slither and posted the output along with our [responses](https://github.com/code-423n4/2024-01-renft/blob/main/docs/slither.md) to each. Please do not submit these findings unless you have reason to believe our responses here are not valid.
+
+> Low severity detectors are not provided with explicit justifications
