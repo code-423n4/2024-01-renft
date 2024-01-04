@@ -18,7 +18,11 @@
 - Starts January 8, 2024 20:00 UTC
 - Ends January 18, 2024 20:00 UTC
 
-### ❗ The code for this contest is located in a separate [repo](https://github.com/re-nft/smart-contracts/commit/fc5cc6d408f5cc77b817809b0b93adfa4ced2fdd).
+### ❗ The code for this contest is located in a separate [repo](https://github.com/re-nft/smart-contracts/commit/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291).
+
+**The above takes you to the correct commit hash, but to be extra explicit, this
+is the commit hash you should be looking at:
+3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291**
 
 ## Automated Findings / Publicly Known Issues
 
@@ -52,7 +56,7 @@ issues.
 #### Dishonest ERC721/ERC1155 Implementations
 
 The
-[Guard](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Guard.sol)
+[Guard](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Guard.sol)
 contract can only protect against the transfer of tokens that faithfully
 implement the ERC721/ERC1155 spec. A dishonest implementation that adds an
 additional function to transfer the token to another wallet cannot be prevented
@@ -63,7 +67,7 @@ by the protocol. Therefore, these issues are considered to be known.
 The protocol contracts do not expect to be interacting with any ERC20 token
 balances that can change during transfer due to a fee, or change balance while
 owned by the
-[PaymentEscrow](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol)
+[PaymentEscrow](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/PaymentEscrow.sol)
 contract. Therefore, these issues are considered to be known.
 
 # Overview
@@ -89,11 +93,11 @@ Modules are internal-facing contracts that store shared state across the
 protocol. For more information on modules, see
 [here](https://github.com/fullyallocated/Default#the-default-framework).
 
-- [Payment Escrow](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol):
+- [Payment Escrow](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/PaymentEscrow.sol):
   Module dedicated to escrowing rental payments while rentals are active. When
   rentals are stopped, this module will determine payouts to all parties and a
   fee will be reserved to be withdrawn later by a protocol admin.
-- [Storage](https://github.com/re-nft/smart-contracts/blob/main/src/modules/Storage.sol):
+- [Storage](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/Storage.sol):
   Module dedicated to maintaining all the storage for the protocol. Includes
   storage for active rentals, deployed rental safes, hooks, and whitelists.
 
@@ -104,23 +108,23 @@ protocol, and route all the necessary updates to data models via Modules. For
 more information on policies, see
 [here](https://github.com/fullyallocated/Default#the-default-framework).
 
-- [Admin](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Admin.sol):
+- [Admin](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Admin.sol):
   Acts as an interface for all behavior in the protocol related admin logic.
   Admin duties include fee management, proxy management, and whitelist
   management.
-- [Create](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Create.sol):
+- [Create](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Create.sol):
   Acts as an interface for all behavior related to creating a rental. This is
   the entrypoint for creating a rental through the protocol, which only Seaport
   contracts can access.
-- [Factory](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Factory.sol):
+- [Factory](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Factory.sol):
   Acts as an interface for all behavior related to deploying rental safes.
   Deploys rental safes using gnosis safe factory contracts.
-- [Guard](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Guard.sol):
+- [Guard](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Guard.sol):
   Acts as an interface for all behavior related to guarding transactions that
   originate from a rental wallet. Prevents transfers of ERC721 and ERC1155
   tokens while a rental is active, as well as preventing token approvals and
   enabling of non-whitelisted gnosis safe modules
-- [Stop](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Stop.sol):
+- [Stop](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Stop.sol):
   Acts as an interface for all behavior related to stoping a rental. This policy
   is also a module enabled on all rental safe wallets, and has the authority to
   pull funds out of a rental wallet if a rental is being stopped.
@@ -130,15 +134,15 @@ more information on policies, see
 Packages are small, helper contracts dedicated to performing a single task which
 are imported by other core contracts in the protocol.
 
-- [Accumulator](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Accumulator.sol):
+- [Accumulator](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/packages/Accumulator.sol):
   Package that implements functionality for managing dynamically allocated data
   struct arrays directly in memory. The rationale for this was the need for an
   array of structs where the total size is not known at instantiation.
-- [Reclaimer](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Reclaimer.sol):
+- [Reclaimer](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/packages/Reclaimer.sol):
   Retrieves rented assets from a wallet contract once a rental has been stopped,
   and transfers them to the proper recipient. A delegate call from the safe to
   the reclaimer is made to pull the assets.
-- [Signer](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Signer.sol):
+- [Signer](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/packages/Signer.sol):
   Contains logic related to signed payloads and signature verification when
   creating rentals.
 
@@ -147,13 +151,13 @@ are imported by other core contracts in the protocol.
 These are general-purpose contracts which are agnostic to the core functionality
 of the protocol.
 
-- [Create2 Deployer](https://github.com/re-nft/smart-contracts/blob/main/src/Create2Deployer.sol):
+- [Create2 Deployer](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/Create2Deployer.sol):
   Deployment contract that uses the init code and a salt to perform a
   deployment. There is added cross-chain safety as well because a particular
   salt can only be used if the sender's address is contained within that salt.
   This prevents a contract on one chain from being deployed by a non-admin
   account on another chain.
-- [Kernel](https://github.com/re-nft/smart-contracts/blob/main/src/Kernel.sol):
+- [Kernel](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/Kernel.sol):
   A registry contract that manages a set of policy and module contracts, as well
   as the permissions to interact with those contracts. Privileged admin and
   executor roles exist to allow for role-granting and execution of kernel
@@ -179,26 +183,26 @@ of the protocol.
 
 | Contract                                                                                                           | SLOC | Purpose                                                                                                                             |
 | ------------------------------------------------------------------------------------------------------------------ | ---- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| [src/modules/PaymentEscrow.sol](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol) | 156  | Escrows rental payments while rentals are active.                                                                                   |
-| [src/modules/Storage.sol](https://github.com/re-nft/smart-contracts/blob/main/src/modules/Storage.sol)             | 106  | Maintains all the storage for the protocol.                                                                                         |
-| [src/packages/Accumulator.sol](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Accumulator.sol)   | 46   | Implements functionality for managing dynamically allocated data struct arrays directly in memory.                                  |
-| [src/packages/Reclaimer.sol](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Reclaimer.sol)       | 41   | Retrieves rented assets from a wallet contract once a rental has been stopped, and transfers them to the proper recipient.          |
-| [src/packages/Signer.sol](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Signer.sol)             | 195  | Contains logic related to signed payloads and signature verification when creating rentals.                                         |
-| [src/policies/Admin.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Admin.sol)               | 58   | Admin duties include fee management, proxy management, and whitelist management.                                                    |
-| [src/policies/Create.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Create.sol)             | 365  | Acts as an interface for all behavior related to creating a rental.                                                                 |
-| [src/policies/Factory.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Factory.sol)           | 78   | Acts as an interface for all behavior related to deploying rental safes.                                                            |
-| [src/policies/Guard.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Guard.sol)               | 161  | Acts as an interface for all behavior related to guarding transactions that originate from a rental wallet.                         |
-| [src/policies/Stop.sol](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Stop.sol)                 | 162  | Acts as an interface for all behavior related to stoping a rental.                                                                  |
-| [src/Create2Deployer.sol](https://github.com/re-nft/smart-contracts/blob/main/src/Create2Deployer.sol)             | 44   | Deployment contract that uses the init code and a salt to perform a deployment.                                                     |
-| [src/Kernel.sol](https://github.com/re-nft/smart-contracts/blob/main/src/Kernel.sol)                               | 251  | A registry contract that manages a set of policy and module contracts, as well as the permissions to interact with those contracts. |
+| [src/modules/PaymentEscrow.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/PaymentEscrow.sol) | 156  | Escrows rental payments while rentals are active.                                                                                   |
+| [src/modules/Storage.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/Storage.sol)             | 106  | Maintains all the storage for the protocol.                                                                                         |
+| [src/packages/Accumulator.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/packages/Accumulator.sol)   | 46   | Implements functionality for managing dynamically allocated data struct arrays directly in memory.                                  |
+| [src/packages/Reclaimer.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/packages/Reclaimer.sol)       | 41   | Retrieves rented assets from a wallet contract once a rental has been stopped, and transfers them to the proper recipient.          |
+| [src/packages/Signer.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/packages/Signer.sol)             | 195  | Contains logic related to signed payloads and signature verification when creating rentals.                                         |
+| [src/policies/Admin.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Admin.sol)               | 58   | Admin duties include fee management, proxy management, and whitelist management.                                                    |
+| [src/policies/Create.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Create.sol)             | 365  | Acts as an interface for all behavior related to creating a rental.                                                                 |
+| [src/policies/Factory.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Factory.sol)           | 78   | Acts as an interface for all behavior related to deploying rental safes.                                                            |
+| [src/policies/Guard.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Guard.sol)               | 161  | Acts as an interface for all behavior related to guarding transactions that originate from a rental wallet.                         |
+| [src/policies/Stop.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Stop.sol)                 | 162  | Acts as an interface for all behavior related to stoping a rental.                                                                  |
+| [src/Create2Deployer.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/Create2Deployer.sol)             | 44   | Deployment contract that uses the init code and a salt to perform a deployment.                                                     |
+| [src/Kernel.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/Kernel.sol)                               | 251  | A registry contract that manages a set of policy and module contracts, as well as the permissions to interact with those contracts. |
 
 ## Out of scope
 
-- [examples/\*](https://github.com/re-nft/smart-contracts/tree/main/src/examples)
-- [interfaces/\*](https://github.com/re-nft/smart-contracts/tree/main/src/interfaces)
-- [libraries/\*](https://github.com/re-nft/smart-contracts/tree/main/src/libraries)
-- [proxy/\*](https://github.com/re-nft/smart-contracts/tree/main/src/proxy)
-- [packages/Zone.sol](https://github.com/re-nft/smart-contracts/blob/main/src/packages/Zone.sol)
+- [examples/\*](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/examples)
+- [interfaces/\*](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/interfaces)
+- [libraries/\*](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/libraries)
+- [proxy/\*](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/proxy)
+- [packages/Zone.sol](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/packages/Zone.sol)
 
 # Additional Context
 
@@ -276,15 +280,15 @@ ERC20 tokens) are not given to the proper addresses or in the correct amounts.
   the rental was a BASE order and is the renter address if the rental was a PAY
   order
 - Stored token balance of the
-  [Payment Escrow](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol)
+  [Payment Escrow](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/PaymentEscrow.sol)
   contract should never be less than the true token balance of the contract
 - Rental safes can never make a call to `setGuard()`
 - Rental safes can never make a call to `enableModule()` or `disableModule()`
   unless the target has been whitelisted by the
-  [Admin Policy](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Admin.sol)
+  [Admin Policy](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Admin.sol)
 - Rental safes can never make a delegatecall unless the target has been
   whitelisted by the
-  [Admin Policy](https://github.com/re-nft/smart-contracts/blob/main/src/policies/Admin.sol)
+  [Admin Policy](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Admin.sol)
 - ERC721 / ERC1155 tokens cannot leave a rental wallet via `approve()`,
   `setApprovalForAll()`, `safeTransferFrom()`, `transferFrom()`, or
   `safeBatchTransferFrom()`
@@ -294,7 +298,7 @@ ERC20 tokens) are not given to the proper addresses or in the correct amounts.
   or stop.
 - When control flow is passed to hook contracts, the rental concerning the hook
   will be active and a record of it will be stored in the
-  [Storage Module](https://github.com/re-nft/smart-contracts/blob/main/src/modules/Storage.sol)
+  [Storage Module](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/Storage.sol)
 
 ## Scoping Details
 
