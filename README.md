@@ -52,7 +52,7 @@ The
 contract can only protect against the transfer of tokens that faithfully
 implement the ERC721/ERC1155 spec. A dishonest implementation that adds an
 additional function to transfer the token to another wallet cannot be prevented
-by the protocol.
+by the protocol. Therefore, these issues are considered to be known.
 
 ### Rebasing or Fee-On-Transfer ERC20 Implementations
 
@@ -60,7 +60,7 @@ The protocol contracts do not expect to be interacting with any ERC20 token
 balances that can change during transfer due to a fee, or change balance while
 owned by the
 [PaymentEscrow](https://github.com/re-nft/smart-contracts/blob/main/src/modules/PaymentEscrow.sol)
-contract.
+contract. Therefore, these issues are considered to be known.
 
 # Overview
 
