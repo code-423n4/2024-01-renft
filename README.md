@@ -191,20 +191,23 @@ of the protocol.
 
 ### ERC20 Token Support
 
-- Fee on transfer and rebasing ERC20 tokens are not supported
-- !TODO: Please list specific ERC20 that your protocol is anticipated to
-  interact with. Could be "any" (literally anything, fee on transfer tokens,
-  ERC777 tokens and so forth) or a list of tokens you envision using on launch.
+Fee on transfer and rebasing ERC20 tokens are not supported
+
+All ERC20 tokens supported by Seaport are supported here. (!Alec)
 
 ### ERC721/ERC1155 Token Support
 
-- !TODO: Please list specific ERC721 that your protocol is anticipated to
-  interact with.
+There are no restrictions placed on what 721/1155 tokens protocol can interact
+with. Similarly to ERC20 token support, all tokens supported by Seaport are
+supported here. (!Alec)
 
 ### Deployed Blockchains
 
-- !TODO: Which blockchains will this code be deployed to, and are considered in
-  scope for this audit?
+Which blockchains will this code be deployed to, and are considered in scope for
+this audit?
+
+We are going to launch on: Ethereum Mainnet, Polygon and Avalanche to begin
+with. We will then look to expand to all the chains that are supported by Safe.
 
 ### Trusted Roles
 
@@ -282,27 +285,30 @@ ERC20 tokens) are not given to the proper addresses or in the correct amounts.
 
 ## Scoping Details
 
-!TODO: please confirm/edit the information below.
-
-```
 - If you have a public code repo, please share it here:
+  https://github.com/re-nft/smart-contracts/commit/fc5cc6d408f5cc77b817809b0b93adfa4ced2fdd
 - How many contracts are in scope?: 17
 - Total SLoC for these contracts?: 1600
 - How many external imports are there?: 2
-- How many separate interfaces and struct definitions are there for the contracts within scope?: 4 interfaces 11 struct
+- How many separate interfaces and struct definitions are there for the
+  contracts within scope?: 4 interfaces 11 struct
 - Does most of your code generally use composition or inheritance?: Composition
 - How many external calls?: 6
 - What is the overall line coverage percentage provided by your tests?: 80
 - Is this an upgrade of an existing system?: False
 - Check all that apply (e.g. timelock, NFT, AMM, ERC20, rollups, etc.): NFT
-- Is there a need to understand a separate part of the codebase / get context in order to audit this part of the protocol?: True
-- Please describe required context: Knowledge of Seaport and Gnosis Safe smart contracts
+- Is there a need to understand a separate part of the codebase / get context in
+  order to audit this part of the protocol?: True
+- Please describe required context: Knowledge of Seaport and Gnosis Safe smart
+  contracts
 - Does it use an oracle?: No
-- Describe any novel or unique curve logic or mathematical models your code uses:
-- Is this either a fork of or an alternate implementation of another project?: False
-- Does it use a side-chain?:
-- Describe any specific areas you would like addressed:
-```
+- Describe any novel or unique curve logic or mathematical models your code
+  uses: None
+- Is this either a fork of or an alternate implementation of another project?:
+  False
+- Does it use a side-chain?: No
+- Describe any specific areas you would like addressed: see **Attack Ideas**
+  above
 
 # Tests
 
