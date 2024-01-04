@@ -68,8 +68,7 @@ restrictions that prevents the usage of ERC721/ERC1155 state-changing functions.
 
 ### Implementing a hook
 
-Example implementations of hooks can be found in the [src/examples/restricted-selector](https://github.com/re-nft/smart-contracts/tree/main/src/examples/restricted-selector) 
-folder. 
+Example implementations of hooks can be found for [restricted selectors](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/examples/restricted-selector), [revenue share](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/examples/revenue-share), and [whitelisted fulfillment](https://github.com/re-nft/smart-contracts/tree/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/examples/whitelisted-fulfillment).
 
 Per each erc721 `GameToken` ID, this hook uses a bitmap which tracks any
 function selectors that are restricted for that token ID only. Bitmaps allow

@@ -210,13 +210,13 @@ of the protocol.
 
 Fee on transfer and rebasing ERC20 tokens are not supported
 
-All ERC20 tokens supported by Seaport are supported here. (!Alec)
+All ERC20 tokens supported by Seaport are supported here.
 
 ### ERC721/ERC1155 Token Support
 
 There are no restrictions placed on what 721/1155 tokens protocol can interact
 with. Similarly to ERC20 token support, all tokens supported by Seaport are
-supported here. (!Alec)
+supported here.
 
 ### Deployed Blockchains
 
@@ -374,7 +374,7 @@ slither .
 ```
 
 We have run default detectors with Slither and posted the output along with our
-[responses](https://github.com/code-423n4/2024-01-renft/blob/main/docs/slither.md)
+[responses](./docs/slither.md)
 to each. Please do not submit these findings unless you have reason to believe
 our responses here are not valid.
 
