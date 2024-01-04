@@ -36,7 +36,7 @@ known issue and is ineligible for awards._
 ### Manipulation via Hook Contracts
 
 Hook contracts are middleware that execute arbitrary logic before the
-transaction payload, originating from a rental safe, executes at an intended
+transaction payload originating from a rental safe executes at an intended
 target address. As such, this leaves plenty of space for unintended behavior if
 a malicious or faulty hook contract is used.
 
