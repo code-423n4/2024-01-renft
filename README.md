@@ -71,15 +71,17 @@ contract. Therefore, these issues are considered to be known.
 This protocol facilitates generalized collateral-free rentals built on top of
 Gnosis Safe and Seaport.
 
-To given an example, imagine Alice has gaming NFTs. She signs seaport orderd
+To give an example, imagine Alice has gaming NFTs. She signs seaport orderd
 typed data and thus signals that she is happy to lend out these assets. Now, Bob
 would love to use the NFTs in the game. He finds Alice's listing and rents. This
 is where these contracts come into force. A gnosis safe is created for Bob where
 assets he rented get sent to. There is a gnosis module that disallows Bob to
 move out the assets from his smart contract wallet. He is now free to use the
-NFTs in-game. The [Default Framework](https://github.com/fullyallocated/Default)
-is used as the main architecture for the protocol, and the contracts in scope
-can be categorized into four main groups:
+NFTs in-game.
+
+The [Default Framework](https://github.com/fullyallocated/Default) is used as
+the main architecture for the protocol, and the contracts in scope can be
+categorized into four main groups:
 
 ### Modules
 
