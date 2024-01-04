@@ -238,4 +238,4 @@ slither .
 
 We have run default detectors with Slither and posted the output along with our [responses](https://github.com/code-423n4/2024-01-renft/blob/main/docs/slither.md) to each. Please do not submit these findings unless you have reason to believe our responses here are not valid.
 
-> Low severity detectors are not provided with explicit justifications
+> Low severity detectors are not provided, and neither are their explicit justifications
