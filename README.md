@@ -189,13 +189,6 @@ of the protocol.
 
 # Additional Context
 
-### DoS Attack Duration
-
-- !TODO: In the event of a DOS, could you outline a minimum duration after which
-  you would consider a finding to be valid? This question is asked in the
-  context of most systems' capacity to handle DoS attacks gracefully for a
-  certain period.
-
 ### ERC20 Token Support
 
 - Fee on transfer and rebasing ERC20 tokens are not supported
