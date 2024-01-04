@@ -123,7 +123,7 @@ more information on policies, see
   Acts as an interface for all behavior related to guarding transactions that
   originate from a rental wallet. Prevents transfers of ERC721 and ERC1155
   tokens while a rental is active, as well as preventing token approvals and
-  enabling of non-whitelisted gnosis safe modules
+  enabling of non-whitelisted gnosis safe modules.
 - [Stop](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Stop.sol):
   Acts as an interface for all behavior related to stoping a rental. This policy
   is also a module enabled on all rental safe wallets, and has the authority to
