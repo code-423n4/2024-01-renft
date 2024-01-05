@@ -85,7 +85,7 @@ categorized into four main groups:
 
 Modules are internal-facing contracts that store shared state across the
 protocol. For more information on modules, see
-[here](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/).
+[here](https://github.com/fullyallocated/Default#the-default-framework).
 
 - [Payment Escrow](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/modules/PaymentEscrow.sol):
   Module dedicated to escrowing rental payments while rentals are active. When
@@ -100,7 +100,7 @@ protocol. For more information on modules, see
 Policies are external-facing contracts that receive inbound calls to the
 protocol, and route all the necessary updates to data models via Modules. For
 more information on policies, see
-[here](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/).
+[here](https://github.com/fullyallocated/Default#the-default-framework).
 
 - [Admin](https://github.com/re-nft/smart-contracts/blob/3ddd32455a849c3c6dc3c3aad7a33a6c9b44c291/src/policies/Admin.sol):
   Acts as an interface for all behavior in the protocol related to admin logic.
