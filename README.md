@@ -330,6 +330,12 @@ Clone with recurse:
 git clone https://github.com/code-423n4/2024-01-renft.git --recurse
 ```
 
+Alternatively, if you have already cloned without recurse, do:
+
+```bash
+git submodule update --init --recursive
+```
+
 # Tests
 
 This protocol uses
